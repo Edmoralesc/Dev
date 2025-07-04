@@ -1,7 +1,7 @@
 name: STAGE
 on:
   push:
-    branches:["stage"]
+    branches: ["stage"]
 
 
 env: 
