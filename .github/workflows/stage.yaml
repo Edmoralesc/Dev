@@ -26,4 +26,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME}}
           password: ${{ secrets.DOCKER_PASSWORD}}
 
+      - name: Build & push
+        uses: docker/build-push-actions@v1
+        with:
+          push: true  
+          tags: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            APP_ENV=${{ secret.APP_ENV }}
+
 
