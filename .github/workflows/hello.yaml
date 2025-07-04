@@ -15,4 +15,4 @@ jobs:
         run: echo "hello world!! ${{ env.TEXT }}"
 
       - name: print-to-screen
-        run: echo "secretvalue!! ${{ secrets.SECRET_VALUE }}"
+        run: echo "secretvalue!! ${{ secrets.SECRET_NAME }}"
