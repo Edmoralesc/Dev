@@ -1,0 +1,16 @@
+name: hello-world
+on:
+  push:
+    branches: ["stage"]
+
+
+env: 
+  TEXT: "Carlos Chacon"
+
+jobs:
+  prints:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: print-to-screen
+        run: echo "hello world!! ${env.TEXT}" 
