@@ -1,7 +1,7 @@
 name: hello-world
 on:
   push:
-    branches: ["stage"]
+    branches: ["stages"]
 
 env: 
   TEXT: "Edwin"

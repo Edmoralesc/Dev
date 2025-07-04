@@ -1,0 +1,26 @@
+
+
+
+
+name: stage
+on:
+  push:
+    branches:["stage"]
+
+
+env: 
+  REGISTRY: cache
+  IMAGE_NAME: kubelabs_publicapi
+  OPS_REPO: Edmoralesc/Dev
+  OPS_BRANCH: main
+
+  # emoralesc/kubelabs_publicapi
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-code
+        uses: actions/checkout:v3
+
+
