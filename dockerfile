@@ -7,7 +7,7 @@ FROM base as builder
 COPY package*.json ./
 
 RUN npm ci
-#--only=production
+#--only=productionasdasdd
 COPY ./src ./src
 
 RUN npm run build
