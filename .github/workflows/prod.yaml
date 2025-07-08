@@ -1,0 +1,91 @@
+name: STAGE
+on:
+  push:
+    branches: ["prod"]
+
+
+env: 
+  REGISTRY: emoralesc
+  IMAGE_NAME: kubelabs_publicapi
+  OPS_REPO: Edmoralesc/Ops
+  OPS_BRANCH: main
+
+  # emoralesc/kubelabs_publicapi
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+    # exporta las variables tipo output al resto de JOBS del pipeline dasdsad
+    outputs:
+      RELEASE_VERSION: ${{ steps.tagVersion.outputs.RELEASE_VERSION }}
+
+    steps:
+      - name: checkout-code
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+      - name: Login to Docker
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME}}
+          password: ${{ secrets.DOCKER_PASSWORD}}
+
+      - name: Get TAG version
+        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
+
+      - name: Show Tag Version
+        run: echo ${{ env.RELEASE_VERSION }}
+
+      - name: Get TAG     
+        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
+        
+      - name: Show Tag Version
+        run: |
+          echo ${{ env.RELEASE_VERSION }}
+           
+
+      - name: Build & push
+        uses: docker/build-push-action@v3
+        with:
+          push: true  
+          tags: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+          build-args: |
+            APP_ENV=${{ secrets.APP_ENV }}
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+      VERSION: ${{ needs.build.outputs.RELEASE_VERSION }}
+
+    steps:
+      - name: Checkout OPS code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.OPS_REPO }}
+          #  token: ${{ secrets.OPS_TOKEN }}
+          ssh-key: ${{ secrets.OPS_TOKEN }}
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: "3.6.1"
+
+      - name: Update Kubernetes resources
+        run: |         
+          cd public-api/overlays/stage
+
+          kustomize edit set image KUSTOMIZE-DEFINED=${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
+          kustomize build . > kustomized-apps.yml
+          cat kustomized-apps.yml
+
+      - name: Commit files
+        run: |
+          git config --local user.email "deploy-bot@stotylabs.dev"
+          git config --local user.name "Storylabs deploy-Bot"
+          git add .
+          git diff-index --quiet HEAD || git commit -am "New image version. Branch staging. tag: ${{ env.VERSION }}"
+          git push --force origin ${{ env.OPS_BRANCH }}
