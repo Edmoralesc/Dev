@@ -10,6 +10,7 @@ env:
   IMAGE_NAME: kubelabs_publicapi
   OPS_REPO: Edmoralesc/Ops
   OPS_BRANCH: main
+  RELEASE_VERSION: 1
 
   # emoralesc/kubelabs_publicapi
 
@@ -30,8 +31,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME}}
           password: ${{ secrets.DOCKER_PASSWORD}}          
 
-      - name: Get TAG version
-        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
+      - name: Get TAG 
+      
+        run: echo "RELEASE_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        #run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
         
       - name: Show Tag Version
         run: |
