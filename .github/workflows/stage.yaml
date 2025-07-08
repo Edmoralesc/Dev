@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      RELEASE_VERSION: ${{ steps.tagVersion.outputs.RELEASE_VERSION}}
+      RELEASE_VERSION: ${{ steps.tagVersion.outputs.RELEASE_VERSION }}
     steps:
       - name: checkout-code
         uses: actions/checkout@v3
@@ -32,7 +32,7 @@ jobs:
           
 
       - name: Get TAG version
-        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $
+        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
         
       - name: Show Tag Version
         run: |
