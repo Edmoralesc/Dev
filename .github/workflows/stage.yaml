@@ -16,6 +16,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # exporta las variables tipo output al resto de JOBS del pipeline
     outputs:
       RELEASE_VERSION: ${{ steps.tagVersion.outputs.RELEASE_VERSION }}
     steps:
@@ -68,7 +69,6 @@ jobs:
 
       - name: Update Kubernetes resources
         run: |
-          mkdir -p public-api/overlays/stage
           
           cd public-api/overlays/stage
 
