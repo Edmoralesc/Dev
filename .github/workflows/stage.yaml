@@ -16,7 +16,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # exporta las variables tipo output al resto de JOBS del pipeline
+    # exporta las variables tipo output al resto de JOBS del pipeline dasdsad
     outputs:
       RELEASE_VERSION: ${{ steps.tagVersion.outputs.RELEASE_VERSION }}
     steps:
