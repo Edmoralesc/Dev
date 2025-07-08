@@ -69,6 +69,8 @@ jobs:
 
       - name: Update Kubernetes resources
         run: |
+          ls
+          pwd
           
           cd public-api/overlays/stage
 
