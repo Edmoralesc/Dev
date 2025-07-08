@@ -35,3 +35,9 @@ jobs:
             APP_ENV=${{ secrets.PROD_APP_ENV }}
 
 
+
+      - name: Get TAG version
+        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
+
+      - name: Show Tag Version
+        run: echo ${{ env.RELEASE_VERSION }}
