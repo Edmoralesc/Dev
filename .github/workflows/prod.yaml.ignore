@@ -5,7 +5,7 @@ on:
 
 
 env: 
-  REGISTRY: edwmoral
+  REGISTRY: emoralesc
   IMAGE_NAME: kubelabs_publicapi
   OPS_REPO: Edmoralesc/Dev
   OPS_BRANCH: main
