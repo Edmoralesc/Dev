@@ -8,7 +8,7 @@ env:
 #emoralesc // edwmoral
   REGISTRY: edwmoral
   IMAGE_NAME: kubelabs_publicapi
-  OPS_REPO: Edmoralesc/Dev
+  OPS_REPO: Edmoralesc/Ops
   OPS_BRANCH: main
 
   # emoralesc/kubelabs_publicapi
