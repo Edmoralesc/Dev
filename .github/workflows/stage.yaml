@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true  
-          tags: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}
           build-args: |
             APP_ENV=${{ secrets.APP_ENV }}
 
@@ -69,3 +69,17 @@ jobs:
           repository: ${{ env.OPS_REPO }}
           # token: ${{ secrets.OPS_TOKEN }}
           ssh-key: ${{ secrets.OPS_TOKEN }}
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: "3.6.1"
+
+      - name: Update Kubernetes resources
+        run: |
+          cd public-api/overlays/stage
+
+          kustomize edit set image KUSTOMIZE-DEFINED=${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
+          kustomize build . > kustomized-apps.yml
+          cat kustomized-apps.yml
