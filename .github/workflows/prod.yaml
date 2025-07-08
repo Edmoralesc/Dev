@@ -1,7 +1,7 @@
-name: STAGE
+name: PROD
 on:
   push:
-    branches: ["prod"]
+    branches: ["main"]
 
 
 env: 
