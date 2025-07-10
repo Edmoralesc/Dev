@@ -83,8 +83,8 @@ jobs:
 
       - name: Commit files
         run: |
-          git config --local user.email "deploy-bot@stotylabs.dev"
-          git config --local user.name "Storylabs deploy-Bot"
+          git config --local user.email "emoralesc@ucenfotec.ac.cr"
+          git config --local user.name "emoralesc@ucenfotec.ac.cr"
           git add .
           git diff-index --quiet HEAD || git commit -am "New image version. Branch staging. tag: ${{ env.VERSION }}"
           git push --force origin ${{ env.OPS_BRANCH }}
