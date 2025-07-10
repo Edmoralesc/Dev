@@ -62,6 +62,7 @@ jobs:
         with:
           repository: ${{ env.OPS_REPO }}
           #  token: ${{ secrets.OPS_TOKEN }}
+          ref: ${{ env.OPS_BRANCH }}
           ssh-key: ${{ secrets.OPS_TOKEN }}
 
       - name: Setup Kustomize
