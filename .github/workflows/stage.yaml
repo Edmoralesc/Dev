@@ -9,7 +9,7 @@ env:
   REGISTRY: emoralesc
   IMAGE_NAME: kubelabs_publicapi
   OPS_REPO: Edmoralesc/Ops
-  OPS_BRANCH: stage 
+  OPS_BRANCH: main 
 
   # emoralesc/kubelabs_publicapi version5.0
 
