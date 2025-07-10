@@ -36,6 +36,15 @@ jobs:
         uses: imranismail/setup-kustomize@v2
         with:
           kustomize-version: "3.6.1"
+      
+      - name: Get TAG     
+        
+        run: echo "RELEASE_VERSION=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
+        
+      - name: Show Tag Version
+        run: |
+          echo ${{ env.RELEASE_VERSION }}
+
 
       - name: Update Kubernetes resources
         run: |
@@ -44,7 +53,7 @@ jobs:
           
           cd public-api/overlays/production
 
-          kustomize edit set image KUSTOMIZE-DEFINED=${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          kustomize edit set image KUSTOMIZE-DEFINED=${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
 
           kustomize build . > kustomized-apps.yml
           cat kustomized-apps.yml
@@ -53,6 +62,7 @@ jobs:
         run: |
           git config --local user.email "emoralesc@ucenfotec.ac.cr"
           git config --local user.name "Edwin deploy-Bot"
+          
           git add .
-          git diff-index --quiet HEAD || git commit -am "New image version. Branch staging. tag: ${{ env.VERSION }}"
+          git diff-index --quiet HEAD || git commit -am "New image version. Branch staging. tag: ${{ env.RELEASE_VERSION }}"
           git push --force origin ${{ env.OPS_BRANCH }}
